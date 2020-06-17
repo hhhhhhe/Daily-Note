@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--标题栏-->
+    <include layout="@layout/main_title_bar"></include>
+    <!--显示tv register , find_psw -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/work"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:gravity="left"
+            android:drawableLeft="@drawable/work"
+            android:drawablePadding="10dp"
+            android:padding="8dp"
+            android:text="工作"
+            android:textColor="#342b38"
+            android:textSize="16sp"
+            android:clickable="true" />
+        <!--layout_weight="1" layout_width="0dp"实现均分效果-->
+        <TextView
+            android:id="@+id/worknumber"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:padding="8dp"
+            android:text="0"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/study"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/study"
+            android:drawablePadding="10dp"
+            android:layout_weight="0.8"
+            android:gravity="left"
+            android:padding="8dp"
+            android:text="学习"
+            android:textColor="#bb596b"
+            android:textSize="16sp"
+            android:clickable="true" />
+        <!--layout_weight="1" layout_width="0dp"实现均分效果-->
+        <TextView
+            android:id="@+id/studynumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="right"
+            android:padding="8dp"
+            android:text="0"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/play"
+            android:drawablePadding="10dp"
+            android:layout_weight="0.8"
+            android:gravity="left"
+            android:padding="8dp"
+            android:text="娱乐"
+            android:textColor="#63b7af"
+            android:textSize="16sp"
+            android:clickable="true" />
+        <!--layout_weight="1" layout_width="0dp"实现均分效果-->
+        <TextView
+            android:id="@+id/playnumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="right"
+            android:padding="8dp"
+            android:text="0"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/other"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/other"
+            android:drawablePadding="10dp"
+            android:layout_weight="0.8"
+            android:gravity="left"
+            android:padding="8dp"
+            android:text="其他"
+            android:textColor="#424874"
+            android:textSize="16sp"
+            android:clickable="true" />
+        <!--layout_weight="1" layout_width="0dp"实现均分效果-->
+        <TextView
+            android:id="@+id/othernumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="right"
+            android:padding="8dp"
+            android:text="0"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

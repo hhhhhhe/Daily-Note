@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Daily-Note</string>
+    <string name="maintitle">记事本分类</string>
+    <string name="work">工作</string>
+    <string name="study">学习</string>
+    <string name="play">娱乐</string>
+    <string name="other">其他</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_confirm">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_add">添加</string>
+    <string name="btn_refresh">暂无更多</string>
+    <string name="save_succ">保存成功！</string>
+    <string name="save_fail">保存失败！</string>
+    <string name="photograph">拍照</string>
+    <string name="photo_album">相册</string>
+</resources>
