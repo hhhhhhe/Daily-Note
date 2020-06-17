@@ -91,6 +91,8 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
         db.close();
     }
 
+    //搜索c查询数据
+
     // 以HashMap<String, Object>键值对的形式获取一条信息
     public static HashMap<String, Object> getNote(NoteDataBaseHelper dbHelper, int _id) {
 
@@ -114,6 +116,13 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Note.tableName, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+    public static Cursor getSearchNotes(NoteDataBaseHelper dbHelper,String searcher) {
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from Note where title like '%"+searcher+"%'",null);
         cursor.moveToFirst();
         return cursor;
     }

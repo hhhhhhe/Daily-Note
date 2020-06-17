@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         editWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("item1","工作");
+//                intent.putExtra("item1","工作");
                 intent.setClass(MainActivity.this, ItemDetailActivity.class);
                 MainActivity.this.startActivity(intent);
                 MainActivity.this.finish();
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         editStudy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("item1","学习");
+//                intent.putExtra("item1","学习");
                 intent.setClass(MainActivity.this, ItemDetailActivity.class);
                 MainActivity.this.startActivity(intent);
                 MainActivity.this.finish();
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         editPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("item1","娱乐");
+//                intent.putExtra("item1","娱乐");
                 intent.setClass(MainActivity.this, ItemDetailActivity.class);
                 MainActivity.this.startActivity(intent);
                 MainActivity.this.finish();
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         editOther.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("item1","其他");
+//                intent.putExtra("item1","其他");
                 intent.setClass(MainActivity.this, ItemDetailActivity.class);
                 MainActivity.this.startActivity(intent);
                 MainActivity.this.finish();

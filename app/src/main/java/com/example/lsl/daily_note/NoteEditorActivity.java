@@ -259,35 +259,23 @@ public class NoteEditorActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (et_title.getText().toString().equals("") ||
-                        et_content.getText().toString().equals("")) {
+                if (et_title.getText().toString().equals("") || et_content.getText().toString().equals("")) {
                     Toast.makeText(NoteEditorActivity.this, R.string.save_fail, Toast.LENGTH_LONG).show();
+//                    insertFlag = false;
                 }
-                if (currentNote.getDate().toString()==tv_now.getText().toString()){
+                if (currentNote!=null&&currentNote.getDate().toString().equals(tv_now.getText().toString())){
                     insertFlag = false;
                     currentNote.setTitle(et_title.getText().toString());
                     currentNote.setContent(et_content.getText().toString());
                     currentNote.setDate(getTime().toString());
                     saveNote();
+                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+                    startActivity(intent);
+                    NoteEditorActivity.this.finish();
+                    Toast.makeText(NoteEditorActivity.this, R.string.save_succ, Toast.LENGTH_LONG).show();
                 }
-//                if(et_title.getText().toString().equals(currentNote.getTitle()) &&
-//                        et_content.getText().toString().equals(currentNote.getContent())&&currentNote.getDate().equals(tv_now.getText().toString())){
-//                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
-//                    startActivity(intent);
-//                    NoteEditorActivity.this.finish();
-//                if(currentNote.getDate().equals(tv_now.getText().toString())){
-//                    updateNote( NoteDataBaseHelper dbHelper,  int _id, ContentValues infoValues )
-//                    currentNote.setTitle(et_title.getText().toString());
-//                    currentNote.setContent(et_content.getText().toString());
-//                    currentNote.setDate(getTime().toString());
-//                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
-//                    startActivity(intent);
-//                    NoteEditorActivity.this.finish();
-//                }
                 else {
-//                    insertFlag = true;
-//                   saveNote();
-                    onBackPressed();
+                    saveNote();
                     Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
                     startActivity(intent);
                     NoteEditorActivity.this.finish();
@@ -373,56 +361,55 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        boolean display = false;
-        if (insertFlag){
-            if( !et_title.getText().toString().equals("") &&
-                    !et_content.getText().toString().equals("")){
-                display = true;
-            }
-        } else{//更新状态
-            if(!et_title.getText().toString().equals(currentNote.getTitle()) ||
-                    !et_content.getText().toString().equals(currentNote.getContent())){
-//                    saveNote();
-                    currentNote.setTitle(et_title.getText().toString());
-                    currentNote.setContent(et_content.getText().toString());
-                    display = true;
-            }
-        }
-        if (et_title.getText().toString().equals(currentNote.getTitle()) &&
-                et_content.getText().toString().equals(currentNote.getContent())){
+        if (et_title.getText().toString().equals("") || et_content.getText().toString().equals("")) {
             Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
             startActivity(intent);
             NoteEditorActivity.this.finish();
         }
-        else if (display){
-            String title = "警告";
-            new AlertDialog.Builder(NoteEditorActivity.this)
-                    .setIcon(R.drawable.book)
-                    .setTitle(title)
-                    .setMessage("是否保存当前内容?")
-                    .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            saveNote();
-                            Toast.makeText(NoteEditorActivity.this,R.string.save_succ,Toast.LENGTH_LONG).show();
-                            //更新当前Note对象的值 防止选择保存后按返回仍显示此警告对话框
-                            currentNote.setTitle(et_title.getText().toString());
-                            currentNote.setContent(et_content.getText().toString());
-                            currentNote.setDate(getTime().toString());
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(NoteEditorActivity.this,ItemDetailActivity.class);
-                            startActivity(intent);
-                            NoteEditorActivity.this.finish();
-                        }
-                    }).create().show();
-        }else{
-            Intent intent = new Intent(NoteEditorActivity.this,ItemDetailActivity.class);
-            startActivity(intent);
-            NoteEditorActivity.this.finish();
+        else {
+            if (currentNote != null && currentNote.getDate().toString().equals(tv_now.getText().toString()) && currentNote.getTitle().toString().equals(et_title.getText().toString()) && currentNote.getContent().toString().equals(et_content.getText().toString())) {
+                Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+                startActivity(intent);
+                NoteEditorActivity.this.finish();
+            }
+            else {
+                String title = "警告";
+                new AlertDialog.Builder(NoteEditorActivity.this)
+                        .setIcon(R.drawable.book)
+                        .setTitle(title)
+                        .setMessage("是否保存当前内容?")
+                        .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (currentNote != null && currentNote.getDate().toString().equals(tv_now.getText().toString())) {
+                                    insertFlag = false;
+                                    currentNote.setTitle(et_title.getText().toString());
+                                    currentNote.setContent(et_content.getText().toString());
+                                    currentNote.setDate(getTime().toString());
+                                    saveNote();
+                                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+                                    startActivity(intent);
+                                    NoteEditorActivity.this.finish();
+                                    Toast.makeText(NoteEditorActivity.this, R.string.save_succ, Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    saveNote();
+                                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+                                    startActivity(intent);
+                                    NoteEditorActivity.this.finish();
+                                    Toast.makeText(NoteEditorActivity.this, R.string.save_succ, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+                                startActivity(intent);
+                                NoteEditorActivity.this.finish();
+                            }
+                        }).create().show();
+            }
         }
     }
 

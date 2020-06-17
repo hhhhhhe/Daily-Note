@@ -1,13 +1,19 @@
 package com.example.lsl.daily_note;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,18 +21,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.lsl.daily_note.Note._id;
+import static com.example.lsl.daily_note.Note.content;
+import static com.example.lsl.daily_note.Note.title;
+
 /**
  * Created by lsl on 2020/6/8.
  */
 
 public class ItemDetailActivity extends AppCompatActivity {
-    private TextView tv_main_title;//标题
+//    private TextView tv_main_title;//标题
+    EditText mEditSearch;//搜索框
+    Button mTvSearch;//搜索按钮
     private Button add;//添加按钮
     private Button delete;//删除按钮
     private ListView noteListView;
-    private String item2;
+//    private String item2;
     private List<NoteInfo> noteList = new ArrayList<>();
+    private List<NoteInfo> notesearchList = new ArrayList<>();
     private ListAdapter mListAdapter;
+    private ListAdapter mListSearchAdapter;
+
     private static NoteDataBaseHelper dbHelper;
 
     @Override
@@ -36,21 +51,11 @@ public class ItemDetailActivity extends AppCompatActivity {
         dbHelper = new NoteDataBaseHelper(this,"MyNote.db",null,1);
 
         //从main_title_bar.xml 页面布局中获取对应的UI控件
-        tv_main_title = (TextView) findViewById(R.id.tv_main_title);
+//        tv_main_title = (TextView) findViewById(R.id.tv_main_title);
         Intent intent=getIntent();
-        item2 = intent.getStringExtra("item1");
-        tv_main_title.setText(item2);
 
         //点击添加按钮跳转页面
         add = (Button) findViewById(R.id.btn_add);
-//        add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intentEditor=new Intent(ItemDetailActivity.this,NoteEditorActivity.class);
-//                startActivity(intentEditor);
-//                ItemDetailActivity.this.finish();
-//            }
-//        });
         delete = (Button) findViewById(R.id.btn_delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +83,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         Intent intent1 = getIntent();
         if (intent1 != null){
             getNoteList();
-            mListAdapter.refreshDataSet();
+            mListAdapter.refreshDataSet();//渲染列表
         }
     }
 
@@ -86,9 +91,16 @@ public class ItemDetailActivity extends AppCompatActivity {
     private void initView(){
         noteListView = (ListView) findViewById(R.id.note_list);
         add = (Button) findViewById(R.id.btn_add);
+        mTvSearch = (Button) findViewById(R.id.btn_search);
+        mEditSearch = (EditText) findViewById(R.id.edit_search);
         //获取noteList
         getNoteList();
         mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
+        noteListView.setAdapter(mListAdapter);
+    }
+    //搜索刷新列表
+    private void refreshListView() {
+        mListAdapter.notifyDataSetChanged();
         noteListView.setAdapter(mListAdapter);
     }
 
@@ -114,6 +126,31 @@ private void setListener(){
             intent.setClass(ItemDetailActivity.this, NoteEditorActivity.class);
             startActivity(intent);
             ItemDetailActivity.this.finish();
+        }
+    });
+    mTvSearch.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //隐藏键盘
+            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    });
+    /**
+     * EditText搜索框对输入值变化的监听，实时搜索
+     */
+    // TODO: 2017/8/10 3、使用TextWatcher实现对实时搜索
+    mEditSearch.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+                String searchString = mEditSearch.getText().toString();
+                queryData(searchString);
         }
     });
 
@@ -148,16 +185,30 @@ private void setListener(){
     //从数据库中读取所有笔记 封装成List<NoteInfo>
     private void getNoteList(){
         noteList.clear();
-        Cursor allNotes = Note.getAllNotes(dbHelper);
+        Cursor allNotes = Note.getAllNotes(dbHelper);;
         for (allNotes.moveToFirst(); !allNotes.isAfterLast(); allNotes.moveToNext()){
             NoteInfo noteInfo = new NoteInfo();
             noteInfo.setId(allNotes.getString(allNotes.getColumnIndex(Note._id)));
             noteInfo.setTitle(allNotes.getString(allNotes.getColumnIndex(Note.title)));
-            noteInfo.setContent(allNotes.getString(allNotes.getColumnIndex(Note.content)));
+            noteInfo.setContent(allNotes.getString(allNotes.getColumnIndex(content)));
             noteInfo.setDate(allNotes.getString(allNotes.getColumnIndex(Note.time)));
-            noteInfo.setDes(allNotes.getString(allNotes.getColumnIndex(Note.content)));
+            noteInfo.setDes(allNotes.getString(allNotes.getColumnIndex(content)));
 //            noteInfo.setPhoto(allNotes.getBlob(allNotes.getColumnIndex(Note.picture)));
             noteList.add(noteInfo);
+        }
+    }
+    private void getSearchList(String searchData){
+        notesearchList.clear();
+        Cursor allNotes = Note.getSearchNotes(dbHelper,searchData);
+        for (allNotes.moveToFirst(); !allNotes.isAfterLast(); allNotes.moveToNext()){
+            NoteInfo noteInfo = new NoteInfo();
+            noteInfo.setId(allNotes.getString(allNotes.getColumnIndex(Note._id)));
+            noteInfo.setTitle(allNotes.getString(allNotes.getColumnIndex(Note.title)));
+            noteInfo.setContent(allNotes.getString(allNotes.getColumnIndex(content)));
+            noteInfo.setDate(allNotes.getString(allNotes.getColumnIndex(Note.time)));
+            noteInfo.setDes(allNotes.getString(allNotes.getColumnIndex(content)));
+//            noteInfo.setPhoto(allNotes.getBlob(allNotes.getColumnIndex(Note.picture)));
+            notesearchList.add(noteInfo);
         }
     }
     //重写返回按钮处理事件
@@ -166,6 +217,23 @@ private void setListener(){
                         Intent intent=new Intent(ItemDetailActivity.this,MainActivity.class);
                         startActivity(intent);
                         ItemDetailActivity.this.finish();
+    }
+
+
+    /**
+     * 搜索数据库中的数据
+     *
+     * @param searchData
+     */
+    private void queryData(String searchData) {
+
+        getSearchList(searchData);
+        mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,notesearchList);
+        noteListView.setAdapter( mListSearchAdapter);
+//        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
+//        noteListView.setAdapter(mListAdapter);
+        mListSearchAdapter.refreshDataSet();//渲染列表
+//        Toast.makeText(ItemDetailActivity.this,searchData,Toast.LENGTH_LONG).show();
     }
 
     //给其他类提供dbHelper

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/main_title_bar">
+    <include layout="@layout/search_item">
         android:layout_alignParentTop ="true"
     </include>
     <!--显示头像，记得加入id iv_head -->
@@ -12,11 +12,13 @@
         android:layout_below ="@+id/title_bar"
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp">
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
             <!--<ListView-->
                 <!--android:id="@+id/note_list"-->
                 <!--android:layout_width="match_parent"-->
@@ -36,7 +38,6 @@
             android:text="@string/btn_refresh"/>
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
     <Button
         android:id="@+id/btn_add"
