@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.lsl.daily_note.Note.updateNote;
+
 
 /**
  * Created by lsl on 2020/6/8.
@@ -93,6 +95,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         if (bundle != null) {
             currentNote = (NoteInfo) bundle.getSerializable("noteInfo");
             et_title.setText(currentNote.getTitle());
+            tv_now.setText(currentNote.getDate());
 //            showbyte = currentNote.getPhoto();
 //            //把byte格式的图片转为bitmap格式的图片
 //            showbitmap = BitmapFactory.decodeByteArray(showbyte, 0, showbyte.length);
@@ -182,7 +185,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     ContentValues values = new ContentValues();
     values.put(Note.title, et_title.getText().toString());
     values.put(Note.content, et_content.getText().toString());
-    values.put(Note.time, tv_now.getText().toString());
+    values.put(Note.time, getTime().toString());
 
 //        photodrawable = pic_button.getDrawable();
 //        //把drawable格式转为byte
@@ -193,7 +196,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     if (insertFlag) {
         Note.insertNote(dbHelper, values);
     } else {
-        Note.updateNote(dbHelper, Integer.parseInt(currentNote.getId()), values);
+        updateNote(dbHelper, Integer.parseInt(currentNote.getId()), values);
     }
 }
 
@@ -260,15 +263,31 @@ public class NoteEditorActivity extends AppCompatActivity {
                         et_content.getText().toString().equals("")) {
                     Toast.makeText(NoteEditorActivity.this, R.string.save_fail, Toast.LENGTH_LONG).show();
                 }
-                if(et_title.getText().toString().equals(currentNote.getTitle()) &&
-                        et_content.getText().toString().equals(currentNote.getContent())){
-                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
-                    startActivity(intent);
-                    NoteEditorActivity.this.finish();
-                }
-                else {
+                if (currentNote.getDate().toString()==tv_now.getText().toString()){
+                    insertFlag = false;
+                    currentNote.setTitle(et_title.getText().toString());
+                    currentNote.setContent(et_content.getText().toString());
+                    currentNote.setDate(getTime().toString());
                     saveNote();
-//                    onBackPressed();
+                }
+//                if(et_title.getText().toString().equals(currentNote.getTitle()) &&
+//                        et_content.getText().toString().equals(currentNote.getContent())&&currentNote.getDate().equals(tv_now.getText().toString())){
+//                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+//                    startActivity(intent);
+//                    NoteEditorActivity.this.finish();
+//                if(currentNote.getDate().equals(tv_now.getText().toString())){
+//                    updateNote( NoteDataBaseHelper dbHelper,  int _id, ContentValues infoValues )
+//                    currentNote.setTitle(et_title.getText().toString());
+//                    currentNote.setContent(et_content.getText().toString());
+//                    currentNote.setDate(getTime().toString());
+//                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+//                    startActivity(intent);
+//                    NoteEditorActivity.this.finish();
+//                }
+                else {
+//                    insertFlag = true;
+//                   saveNote();
+                    onBackPressed();
                     Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
                     startActivity(intent);
                     NoteEditorActivity.this.finish();
@@ -363,9 +382,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         } else{//更新状态
             if(!et_title.getText().toString().equals(currentNote.getTitle()) ||
                     !et_content.getText().toString().equals(currentNote.getContent())){
-//                currentNote.setTitle(et_title.getText().toString());
-//                currentNote.setContent(et_content.getText().toString());
-                display = true;
+//                    saveNote();
+                    currentNote.setTitle(et_title.getText().toString());
+                    currentNote.setContent(et_content.getText().toString());
+                    display = true;
             }
         }
         if (et_title.getText().toString().equals(currentNote.getTitle()) &&
@@ -388,6 +408,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                             //更新当前Note对象的值 防止选择保存后按返回仍显示此警告对话框
                             currentNote.setTitle(et_title.getText().toString());
                             currentNote.setContent(et_content.getText().toString());
+                            currentNote.setDate(getTime().toString());
                         }
                     })
                     .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
