@@ -50,8 +50,6 @@ public class LogonActivity extends AppCompatActivity {
             //从main_title_bar中获取的id
             tv_main_title= (TextView) findViewById(R.id.tv_main_title);
             tv_main_title.setText("登录");
-//            tv_back= (TextView) findViewById(R.id.tv_back);
-            //从activity_login.xml中获取的
             tv_register= (TextView) findViewById(R.id.tv_register);
             tv_find_psw= (TextView) findViewById(R.id.tv_find_psw);
             btn_login= (Button) findViewById(R.id.btn_login);
@@ -109,7 +107,7 @@ public class LogonActivity extends AppCompatActivity {
                         //销毁登录界面
                         LogonActivity.this.finish();
                         //跳转到主界面，登录成功的状态传递到 MainActivity 中
-                        startActivity(new Intent(LogonActivity.this, MainActivity.class));
+                        startActivity(new Intent(LogonActivity.this, ItemDetailActivity.class));
                         return;
                     }else if((spPsw!=null&&!TextUtils.isEmpty(spPsw)&&!md5Psw.equals(spPsw))){
                         Toast.makeText(LogonActivity.this, "输入的用户名和密码不一致", Toast.LENGTH_SHORT).show();
@@ -162,7 +160,6 @@ public class LogonActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if(data!=null) {
                 //是获取注册界面回传过来的用户名
-                // getExtra().getString("***");
                 String userName = data.getStringExtra("userName");
                 if (!TextUtils.isEmpty(userName)) {
                     //设置用户名到 et_user_name 控件

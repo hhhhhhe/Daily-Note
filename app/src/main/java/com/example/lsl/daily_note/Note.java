@@ -18,13 +18,12 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
     public static String tableName = "Note";
     // 定义各字段名
     public static String _id = "_id"; // _id是SQLite中自动生成的主键，用语标识唯一的记录，为了方便使用，此处定义对应字段名
-//    public static String id = "id";//来判断是否修改的id号
     public static String title = "title"; // 标题
     public static String content = "content"; // 内容
     public static String time = "date"; // 时间
     public static String pre = "pre";//设置的优先级
-//    public static String picture = "picture";//图片
-//    public static String path = "path"; // 图片路径
+    public static String picture = "picture";//图片
+
 
 
     //私有化构造方法
@@ -50,8 +49,8 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
                 + Note.title + " TEXT, "
                 + Note.content + " TEXT, "
                 + Note.time + " TEXT, "
-                + Note.pre + " TEXT "
-//                + Note.picture + " BLOB"
+                + Note.pre + " TEXT, "
+                + Note.picture + " BLOB "
                 + ");";
         db.execSQL(sql);
     }
@@ -107,13 +106,11 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
         // 此处要求查询Note._id为传入参数_id的对应记录，使游标指向此记录
         Cursor cursor = db.query(Note.tableName, null, Note._id + " =? ", new String[]{_id + ""}, null, null, null);
         cursor.moveToFirst();
-//        NoteMap.put(Note.id,cursor.getString(cursor.getColumnIndex(Note.time)));
         NoteMap.put(Note.title, cursor.getLong(cursor.getColumnIndex(Note.title)));
         NoteMap.put(Note.content, cursor.getString(cursor.getColumnIndex(Note.content)));
         NoteMap.put(Note.time, cursor.getString(cursor.getColumnIndex(Note.time)));
         NoteMap.put(Note.pre, cursor.getString(cursor.getColumnIndex(Note.pre)));
-//        NoteMap.put(Note.picture, cursor.getBlob(cursor.getColumnIndex(Note.picture)));
-//        NoteMap.put(Note.path, cursor.getString(cursor.getColumnIndex(Note.path)));
+        NoteMap.put(Note.picture, cursor.getBlob(cursor.getColumnIndex(Note.picture)));
         return NoteMap;
     }
 

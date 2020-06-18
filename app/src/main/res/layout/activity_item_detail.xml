@@ -84,24 +84,4 @@
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/btn_up" />
 
-    <!--android:layout_marginBottom="67dp"-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginLeft="240dp"-->
-        <!--android:background="@drawable/add"-->
-        <!--android:layout_marginEnd="46dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentEnd="true" />-->
-        <!--<Button-->
-            <!--android:id="@+id/btn_delete"-->
-            <!--android:layout_marginBottom="170dp"-->
-            <!--android:layout_width="62dp"-->
-            <!--android:layout_height="62dp"-->
-            <!--android:layout_marginLeft="240dp"-->
-            <!--android:background="@drawable/notsave"-->
-            <!--android:layout_marginEnd="42dp"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentEnd="true" />-->
-
-
 </RelativeLayout>

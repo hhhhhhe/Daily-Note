@@ -24,16 +24,6 @@ android:background="#84a9ac"
             android:layout_margin="2dp"
             android:singleLine="true"
             android:layout_weight="0.67" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/tv_search"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:gravity="center"-->
-            <!--android:background="@drawable/serch"-->
-            <!---->
-            <!--android:textSize="20sp" />-->
-
         <Button
             android:id="@+id/btn_search"
             android:gravity="center"

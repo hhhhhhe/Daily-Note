@@ -83,9 +83,6 @@ public class ListAdapter extends BaseAdapter {
         else {
             holder = (ViewHolder)convertView.getTag();
         }
-        //如果每个item的图片一样的话可以直接在布局文件中固定设置
-//        holder.itemIcon.setImageBitmap(BitmapFactory.decodeResource(
-//                context.getResources(),R.drawable.note));
         holder.itemNoteTitle.setText(noteList.get(position).getTitle());
         holder.itemNoteDate.setText(noteList.get(position).getDate());
         holder.itemNoteDes.setText(noteList.get(position).getDes());

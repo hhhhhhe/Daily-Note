@@ -55,15 +55,15 @@ public class NoteEditorActivity extends AppCompatActivity {
     private Button btn_save;//保存
     private Button btn_return;//取消
     private ImageView pic_button;//插入图片按钮
-//    public Drawable photodrawable;//插入的图片(有默认的图片)
+    public Drawable photodrawable;//插入的图片(有默认的图片)
     private ImageView testpic;
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
-//    public Bitmap photobitmap ;//图片的Bitmap格式
-//    public byte[] photobyte;//图片转为byte类型存入数据库（有默认图片）
+    public Bitmap photobitmap ;//图片的Bitmap格式
+    public byte[] photobyte = new byte[1024];//图片转为byte类型存入数据库（有默认图片）
     private NoteInfo currentNote;
-//    public byte[] showbyte;
-//    public Bitmap showbitmap;
+    public byte[] showbyte = new byte[1024];
+    public Bitmap showbitmap;
     //记录是否是插入状态 （因为也可能是更新（编辑）状态）
     private boolean insertFlag = true;
     /**
@@ -75,10 +75,6 @@ public class NoteEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        photodrawable = pic_button.getDrawable();
-//        //把drawable格式转为byte
-//        photobyte = dratobyte(photodrawable);
-//        photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
         setContentView(R.layout.note_editor);
         //设置此界面为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -100,54 +96,10 @@ public class NoteEditorActivity extends AppCompatActivity {
             tv_now.setText(currentNote.getDate());
             et_content.setText(currentNote.getContent());
             et_pre.setText(currentNote.getPre());
-          //  showbyte = currentNote.getPhoto();
-//            //把byte格式的图片转为bitmap格式的图片
-//            showbitmap = BitmapFactory.decodeByteArray(showbyte, 0, showbyte.length);
-//            pic_button.setImageBitmap(showbitmap);
-//
-
-//            et_pre.setText(currentNote.getPre());
-//            //获取drawable格式的图片
-//            Drawable drawable1 = pic_button.getDrawable();
-//            //把drawable格式转为byte
-//            byte[] bytepic = dratobyte(drawable1);
-//            //把byte格式的图片转为bitmap格式的图片
-//            Bitmap bmpout = BitmapFactory.decodeByteArray(bytepic, 0, bytepic.length);
-//            //用Bitmap格式的图片设置tespic的图片
-//            testpic.setImageBitmap(bmpout);
-//            byte[] in = currentNote.getPhoto();
-//            Bitmap pic = BitmapFactory.decodeByteArray(in,0,in.length);
-//            pic_button.setBackgroundResource(0);
-//            pic_button.setImageBitmap(pic);
-//            testpic.setImageBitmap(pic);
-//            byte[] pic = currentNote.getPhoto();
-//            et_content.setText(pic.toString());
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(pic,0,pic.length);
-
-//            while(m.find()){
-//                //取出路径前的文字
-//                if(m.start() > 0){
-//                    et_content.append(context.substring(startIndex, m.start()));
-//                }
-//                SpannableString ss = new SpannableString(m.group().toString());
-//                //取出路径
-//                String path = m.group().toString();
-////                et_content.setText(path.toString());
-//                //取出路径的后缀
-//                String type = path.substring(path.length() - 3, path.length());
-//                Bitmap bm = null;
-//                Bitmap rbm = null;
-//                    //取出图片
-//                    bm = BitmapFactory.decodeFile(m.group());
-//                    //缩放图片
-//                    rbm = resize(bm,480);
-//                //为图片添加边框效果
-//                rbm = getBitmapHuaSeBianKuang(rbm);
-//                System.out.println(rbm.getWidth()+"-------"+rbm.getHeight());
-//                ImageSpan span = new ImageSpan(this, rbm);
-//                ss.setSpan(span,0, m.end() - m.start(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                et_content.append(ss);
-//                startIndex = m.end();
+            showbyte = currentNote.getPhoto();
+////            //把byte格式的图片转为bitmap格式的图片
+            showbitmap = BitmapFactory.decodeByteArray(showbyte, 0, showbyte.length);
+            pic_button.setImageBitmap(showbitmap);
         }
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -160,30 +112,6 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
     }
 
-//    private void saveNote() {
-//        NoteDataBaseHelper dbHelper = ItemDetailActivity.getDbHelper();
-//        ContentValues values = new ContentValues();
-//        values.put(Note.title, et_title.getText().toString());
-//        values.put(Note.content, et_content.getText().toString());
-//        values.put(Note.time, tv_now.getText().toString());
-//        //获取drawable格式的图片
-////        photodrawable = pic_button.getDrawable();
-//        //把drawable格式转为byte
-////        photobyte = dratobyte(photodrawable);
-////        values.put(Note.picture,photobyte);
-////        //把byte格式的图片转为bitmap格式的图片
-////        photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
-////
-////        values.put(Note.picture,photobyte);
-////            values.put(Note.picture,photobyte);
-////        values.put(Note.path,imageUri.toString());
-//        if (insertFlag) {
-//            Note.insertNote(dbHelper, values);
-//        } else {
-//            Note.updateNote(dbHelper, Integer.parseInt(currentNote.getId()), values);
-//        }
-//    }
-
     //保存数据
     private void saveNote() {
     NoteDataBaseHelper dbHelper = ItemDetailActivity.getDbHelper();
@@ -193,12 +121,10 @@ public class NoteEditorActivity extends AppCompatActivity {
     values.put(Note.content, et_content.getText().toString());
     values.put(Note.pre, et_pre.getText().toString());
     values.put(Note.time, getTime().toString());
-//        photodrawable = pic_button.getDrawable();
-//        //把drawable格式转为byte
-//        photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
-//        testpic.setImageDrawable(photodrawable);
-//        values.put(Note.picture,dratobyte(pic_button.getDrawable()));
-//    values.put(Note.id,tv_now.getText().toString());
+    photodrawable = pic_button.getDrawable();
+    photobyte=dratobyte( photodrawable);
+
+    values.put(Note.picture,photobyte);
     if (insertFlag) {
         Note.insertNote(dbHelper, values);
     } else {
@@ -215,15 +141,12 @@ public class NoteEditorActivity extends AppCompatActivity {
         et_title = (EditText) findViewById(R.id.et_title);
         et_pre = (EditText) findViewById(R.id.itempre);
         pic_button = (ImageView) findViewById(R.id.pic);
-//        testpic = (ImageView) findViewById(R.id.testpic);
-//        photodrawable = pic_button.getDrawable();
+        testpic = (ImageView) findViewById(R.id.testpic);
+        photodrawable = pic_button.getDrawable();
         tv_now.setText(getTime());
 //        //把drawable格式转为byte
-//        photobyte = dratobyte(photodrawable);
-//        photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
-//        testpic.setImageDrawable(photodrawable);
-//        //用Bitmap格式的图片设置tespic的图片
-//       testpic = (ImageView) findViewById(R.id.testpic)
+        photobyte = dratobyte(photodrawable);
+        photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
 
     }
 
@@ -259,16 +182,18 @@ public class NoteEditorActivity extends AppCompatActivity {
         btn_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                NoteEditorActivity.this.finish();
                 onBackPressed();
             }
         });
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (et_title.getText().toString().equals("") || et_content.getText().toString().equals("")) {
-                    Toast.makeText(NoteEditorActivity.this, R.string.save_fail, Toast.LENGTH_LONG).show();
-//                    insertFlag = false;
+                if (et_title.getText().toString().equals("") || et_content.getText().toString().equals("") || et_pre.getText().toString().equals("")) {
+                    Toast.makeText(NoteEditorActivity.this, "输入框不能为空，保存失败", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
+                    startActivity(intent);
+                    NoteEditorActivity.this.finish();
+                    insertFlag = false;
                 }
                 if (currentNote!=null&&currentNote.getDate().toString().equals(tv_now.getText().toString())){
                     insertFlag = false;
@@ -276,6 +201,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                     currentNote.setContent(et_content.getText().toString());
                     currentNote.setPre(et_pre.getText().toString());
                     currentNote.setDate(getTime().toString());
+                    currentNote.setPhoto(dratobyte(pic_button.getDrawable()));
                     saveNote();
                     Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
                     startActivity(intent);
@@ -293,89 +219,22 @@ public class NoteEditorActivity extends AppCompatActivity {
         });
     }
 
-    //保存笔记到数据库 判断是新建还是更新
-    //将drawable转换成可以用来存储的byte[]类型
-//    private byte[] getPicture(Drawable drawable) {
-//        if(drawable == null) {
-//            return null;
-//        }
-//        BitmapDrawable bd = (BitmapDrawable) drawable;
-//        Bitmap bitmap = bd.getBitmap();
-//        ByteArrayOutputStream os = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-//        return os.toByteArray();
-//    }
-
-    //重写手机上返回按键处理函数，如果更改了提示保存 否则直接返回主界面
-//    @Override
-//    public void onBackPressed() {
-//        boolean display = false;
-//        if (insertFlag) {
-//            if (!et_title.getText().toString().equals("") &&
-//                    !et_content.getText().toString().equals("")) {
-//                display = true;
-//            }
-//        }
-//        else {
-//            if (!et_title.getText().toString().equals(currentNote.getTitle()) ||
-//                    !et_content.getText().toString().equals(currentNote.getContent()) ) {
-//                display = true;
-//            }
-//        }
-//        if (display) {
-//            String title = "提示";
-//            new AlertDialog.Builder(NoteEditorActivity.this)
-//                    .setIcon(R.drawable.book)
-//                    .setTitle(title)
-//                    .setMessage("是否保存当前内容?")
-//                    .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            saveNote();
-//                            Toast.makeText(NoteEditorActivity.this, R.string.save_succ, Toast.LENGTH_LONG).show();
-//                            //更新当前Note对象的值 防止选择保存后按返回仍显示此警告对话框
-//                            currentNote.setTitle(et_title.getText().toString());
-//                            currentNote.setContent(et_content.getText().toString());
-////                            currentNote.setPhoto(photobyte);
-//                            //获取drawable格式的图片
-////                            photodrawable =  pic_button.getDrawingCache();
-//                            //把drawable格式转为byte
-////                            photobyte= dratobyte(photodrawable);
-//                            //把byte格式的图片转为bitmap格式的图片
-////                            photobitmap = pic_button.getDrawingCache();
-//////                            Bitmap bmpout = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
-////                            //用Bitmap格式的图片设置tespic的图片
-//////            ImageView testpic = (ImageView) findViewById(R.id.testpic);
-////                            testpic.setImageBitmap(photobitmap);
-////                            values.put(Note.picture,dratobyte(pic_button.getDrawable()));
-////                            currentNote.setPhoto(dratobyte(pic_button.getDrawable()));
-//                        }
-//                    })
-//                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-////                            NoteEditorActivity.this.finish();
-//                            Intent intent1 = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
-//                            startActivity(intent1);
-//                        }
-//                    }).create().show();
-//        } else {
-//            Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
-//            startActivity(intent);
-////            NoteEditorActivity.this.finish();
-//        }
-//    }
-//重写手机上返回按键处理函数，如果更改了提示保存 否则直接返回主界面
 
     @Override
     public void onBackPressed() {
-        if (et_title.getText().toString().equals("") || et_content.getText().toString().equals("")) {
+        if (et_title.getText().toString().equals("") || et_content.getText().toString().equals("") ||et_pre.getText().toString().equals("")) {
             Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
             startActivity(intent);
             NoteEditorActivity.this.finish();
+            Toast.makeText(NoteEditorActivity.this,"输入框不能为空,保存失败", Toast.LENGTH_LONG).show();
         }
         else {
-            if (currentNote != null && currentNote.getDate().toString().equals(tv_now.getText().toString()) && currentNote.getTitle().toString().equals(et_title.getText().toString()) && currentNote.getContent().toString().equals(et_content.getText().toString())) {
+            if (currentNote != null && currentNote.getDate().toString().equals(tv_now.getText().toString())
+                    && currentNote.getTitle().toString().equals(et_title.getText().toString())
+                    && currentNote.getContent().toString().equals(et_content.getText().toString())
+                    && currentNote.getPre().toString().equals(et_pre.getText().toString())
+                    && currentNote.getPhoto().toString().equals(dratobyte(pic_button.getDrawable()).toString())
+                    ) {
                 Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
                 startActivity(intent);
                 NoteEditorActivity.this.finish();
@@ -457,62 +316,13 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     public void takePhoto() {
-        //调用系统拍照界面
-//        try
-//        {
-//            if(outputImage.exists()) //  检查与File对象相连接的文件和目录是否存在于磁盘中
-//            {
-//                outputImage.delete();//  删除与File对象相连接的文件和目录
-//            }
-//            outputImage.createNewFile();//  如果与File对象相连接的文件不存在，则创建一个空文件
-//            Log.d("haha", "创建图片存储目录");
-//        } catch (IOException e)
-//        {
-//            Log.d("haha", "创建目录抛出异常");
-//            e.printStackTrace();
-//        }
-//        imageUri = Uri.fromFile(outputImage);//将文件路径转化为Uri对象,这个Uri对象表示着output_image.jpg 这张图片的本地真实路径
-//        et_content.setText(imageUri.toString());
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //区分选择相片
         startActivityForResult(intent, 2);
     }
-//    public void takePhoto() {
-//        String photoName = getTime() + "_image.jpg"; //          获取本地时间，作为图片的名字，防止拍了多张照片时，出现图片覆盖导致之前图片消失的问题
-//        Log.d("haha", "photoName is " + photoName);
-//        /**
-//         *          创建File对象，用于存储拍照后的照片
-//         *          第一个参数：  是这张照片存放在手机SD卡的对应关联缓存应用
-//         *          第二个参数：  这张图片的命名
-//         */
-//        File outputImage = new File(Environment.getExternalStorageDirectory()+"/ASimpleCount/", photoName);
-//        try
-//        {
-//            if(outputImage.exists()) //  检查与File对象相连接的文件和目录是否存在于磁盘中
-//            {
-//                outputImage.delete();//  删除与File对象相连接的文件和目录
-//            }
-//            outputImage.createNewFile();//  如果与File对象相连接的文件不存在，则创建一个空文件
-//            Log.d("haha", "创建图片存储目录");
-//        } catch (IOException e)
-//        {
-//            Log.d("haha", "创建目录抛出异常");
-//            e.printStackTrace();
-//        }
-//        imageUri = Uri.fromFile(outputImage);//将文件路径转化为Uri对象,这个Uri对象表示着output_image.jpg 这张图片的本地真实路径
-//        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE"); //  将Intent的action指定为 拍照到指定目录 —— android.media.action.IMAGE_CAPTURE
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//  指定图片的输出地址
-//        intent.putExtra("name", photoName);
-//        //  在通过startActivityForResult()，来启动活动，因此拍完照后会有结果返回到 onActivityResult()方法中
-//        startActivityForResult(intent,TAKE_PHOTO);//  打开相机，用自定义常量 —— TAKE_PHOTO来作为case处理图片的标识
-////        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-////        pic_button.setImageBitmap(bitmap);
-////        materialDialog.dismiss();
-//    }
 
     public void chooseFromAlbum() {
-//        imageUri = Uri.fromFile(outputImage);//将文件路径转化为Uri对象,这个Uri对象表示着output_image.jpg 这张图片的本地真实路径
         Intent intent;
         //添加图片的主要代码
         intent = new Intent();
@@ -527,7 +337,6 @@ public class NoteEditorActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        photobitmap = pic_button.getDrawingCache();
         if (resultCode == RESULT_OK) {
             //取得数据
             Uri uri = data.getData();
@@ -578,15 +387,6 @@ public class NoteEditorActivity extends AppCompatActivity {
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, imgWidth, imgHeight, mx, true);
             bitmap = getBitmapHuaSeBianKuang(bitmap);
             pic_button.setImageBitmap(bitmap);
-            //获取drawable格式的图片
-//            photodrawable = pic_button.getDrawable();
-            //把drawable格式转为byte
-//            photobyte = dratobyte(photodrawable);
-            //把byte格式的图片转为bitmap格式的图片
-//            photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
-            //用Bitmap格式的图片设置tespic的图片
-//            ImageView testpic = (ImageView) findViewById(R.id.testpic);
-//            testpic.setImageBitmap(photobitmap);
         }
     }
 

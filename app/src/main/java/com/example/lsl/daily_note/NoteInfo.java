@@ -17,7 +17,7 @@ public class NoteInfo implements Serializable {
     private String date;
     private String des;
     private String pre;
-//    private byte[] photo;
+    private byte[] photo;
 
     //getter and setter
 
@@ -78,13 +78,13 @@ public class NoteInfo implements Serializable {
         return title;
     }
 
-//    public byte[] getPhoto(){
-//        return photo;
-//    }
+    public byte[] getPhoto(){
+        return photo;
+    }
 
-//    public void setPhoto(byte[] photo){
-//        this.photo = photo;
-//    }
+    public void setPhoto(byte[] photo){
+        this.photo = photo;
+    }
 
     public void setId(String id) {
         this.id = id;

@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--标题栏-->
-    <include layout="@layout/main_title_bar"></include>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#03AEDA"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:weightSum="1">
         <LinearLayout
@@ -21,7 +21,7 @@
                 android:id="@+id/tv_now"
                 android:layout_width="wrap_content"
                 android:layout_height="49dp"
-                android:textColor="#fffff0"
+                android:textColor="#ffffff"
                 android:textAlignment="textEnd"
                 android:gravity="end|center_vertical"
                 android:paddingRight="8dp"
@@ -32,11 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:orientation="vertical"
+
             android:layout_weight="0.4">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
+
                 android:padding="2dp"
                 android:layout_gravity="right">
                 <Button
@@ -44,8 +46,8 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:text="@string/btn_save"
-                    android:background="@drawable/shape"
-                    android:textColor="#B9E3FD"
+                    android:background="#ffffff"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="2dp"/>
                 <Button
@@ -53,8 +55,8 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:text="@string/btn_cancel"
-                    android:background="@drawable/shape"
-                    android:textColor="#B9E3FD"
+                    android:background="#ffffff"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="2dp"/>
             </LinearLayout>
@@ -72,19 +74,19 @@
     </EditText>
     <ImageView
         android:id="@+id/pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/picture"
+        app:srcCompat="@drawable/addp"
         />
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="添加具体事项"
-        android:textSize="14dp"
+        android:textSize="16dp"
         android:gravity="left"/>
 
     <LinearLayout
@@ -101,38 +103,13 @@
             android:text="设置记事优先级"
             android:textSize="14dp"
             />
-        <!--<RadioGroup-->
-            <!--android:id="@+id/RadioGroup1"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/important"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="重要"-->
-                <!--android:textSize="14dp"-->
-                <!--/>-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/soso"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="一般"-->
-                <!--android:textSize="14dp"-->
-                <!--/>-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/deliy"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="可缓"-->
-                <!--android:textSize="14dp"-->
-                <!--/>-->
-        <!--</RadioGroup>-->
         <EditText
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/itempre"
+            android:textSize="16dp"
+            android:textColor="#888"
             android:hint="0~5"/>
     </LinearLayout>
     <ImageView

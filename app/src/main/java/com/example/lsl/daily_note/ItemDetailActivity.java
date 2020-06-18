@@ -8,31 +8,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.lsl.daily_note.Note._id;
-import static com.example.lsl.daily_note.Note.content;
-//import static com.example.lsl.daily_note.Note.pre;
-//import static com.example.lsl.daily_note.Note.pre;
-import static com.example.lsl.daily_note.Note.title;
+import static com.example.lsl.daily_note.Note.deleteAllNote;
 
 /**
  * Created by lsl on 2020/6/8.
  */
 
 public class ItemDetailActivity extends AppCompatActivity {
-//    private TextView tv_main_title;//标题
     EditText mEditSearch;//搜索框
     Button mTvSearch;//搜索按钮
     private Button add;//添加按钮
@@ -54,9 +47,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
         dbHelper = new NoteDataBaseHelper(this,"MyNote.db",null,1);
-
-        //从main_title_bar.xml 页面布局中获取对应的UI控件
-//        tv_main_title = (TextView) findViewById(R.id.tv_main_title);
         Intent intent=getIntent();
 
         //点击添加按钮跳转页面
@@ -65,7 +55,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Note.deleteAllNote(dbHelper);
+                deleteAllNote(dbHelper);
                 getNoteList();
                 mListAdapter.refreshDataSet();
                 Toast.makeText(ItemDetailActivity.this,"删除成功！",Toast.LENGTH_LONG).show();
@@ -218,7 +208,7 @@ private void setListener(){
             noteInfo.setDes(Notes.getString(Notes.getColumnIndex(Note.content)));
             noteInfo.setPre(Notes.getString(Notes.getColumnIndex(Note.pre)));
 //            Toast.makeText(ItemDetailActivity.this, allNotes.getColumnIndex(content), Toast.LENGTH_LONG).show();
-//            noteInfo.setPhoto(allNotes.getBlob(allNotes.getColumnIndex(Note.picture)));
+            noteInfo.setPhoto(Notes.getBlob(Notes.getColumnIndex(Note.picture)));
             noteinfo.add(noteInfo);
         }
     }
@@ -237,14 +227,6 @@ private void setListener(){
         Cursor downNotes = Note.downNotes(dbHelper);
         noteInfoSet(noteListdown,downNotes);
     }
-    //重写返回按钮处理事件
-    @Override
-    public void onBackPressed() {
-                        Intent intent=new Intent(ItemDetailActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        ItemDetailActivity.this.finish();
-    }
-
 
     /**
      * 搜索数据库中的数据
@@ -256,28 +238,19 @@ private void setListener(){
         getSearchList(searchData);
         mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,notesearchList);
         noteListView.setAdapter( mListSearchAdapter);
-//        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
-//        noteListView.setAdapter(mListAdapter);
         mListSearchAdapter.refreshDataSet();//渲染列表
-//        Toast.makeText(ItemDetailActivity.this,searchData,Toast.LENGTH_LONG).show();
     }
     private void queryDataUp() {
         getListup();
         mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,noteListup);
         noteListView.setAdapter( mListSearchAdapter);
-//        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
-//        noteListView.setAdapter(mListAdapter);
         mListSearchAdapter.refreshDataSet();//渲染列表
-//        Toast.makeText(ItemDetailActivity.this,searchData,Toast.LENGTH_LONG).show();
-    }
+   }
     private void queryDataDown() {
         getListDown();
         mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,noteListdown);
         noteListView.setAdapter( mListSearchAdapter);
-//        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
-//        noteListView.setAdapter(mListAdapter);
         mListSearchAdapter.refreshDataSet();//渲染列表
-//        Toast.makeText(ItemDetailActivity.this,searchData,Toast.LENGTH_LONG).show();
     }
 
     //给其他类提供dbHelper
