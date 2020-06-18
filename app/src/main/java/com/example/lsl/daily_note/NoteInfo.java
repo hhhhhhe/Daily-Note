@@ -16,6 +16,7 @@ public class NoteInfo implements Serializable {
     private String content;
     private String date;
     private String des;
+    private String pre;
 //    private byte[] photo;
 
     //getter and setter
@@ -32,6 +33,13 @@ public class NoteInfo implements Serializable {
         return id;
     }
 
+    public String getPre(){
+        return pre;
+    }
+
+    public void setPre(String pre) {
+        this.pre = pre;
+    }
     public String getDes(){
         //定义正则表达式，用于匹配路径
         String content = getContent();

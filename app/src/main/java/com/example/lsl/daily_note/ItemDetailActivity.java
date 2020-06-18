@@ -23,6 +23,8 @@ import java.util.List;
 
 import static com.example.lsl.daily_note.Note._id;
 import static com.example.lsl.daily_note.Note.content;
+//import static com.example.lsl.daily_note.Note.pre;
+//import static com.example.lsl.daily_note.Note.pre;
 import static com.example.lsl.daily_note.Note.title;
 
 /**
@@ -35,9 +37,12 @@ public class ItemDetailActivity extends AppCompatActivity {
     Button mTvSearch;//搜索按钮
     private Button add;//添加按钮
     private Button delete;//删除按钮
+    private Button up;//升序
+    private Button down;//降序
     private ListView noteListView;
-//    private String item2;
     private List<NoteInfo> noteList = new ArrayList<>();
+    private List<NoteInfo> noteListup = new ArrayList<>();
+    private List<NoteInfo> noteListdown = new ArrayList<>();
     private List<NoteInfo> notesearchList = new ArrayList<>();
     private ListAdapter mListAdapter;
     private ListAdapter mListSearchAdapter;
@@ -93,6 +98,8 @@ public class ItemDetailActivity extends AppCompatActivity {
         add = (Button) findViewById(R.id.btn_add);
         mTvSearch = (Button) findViewById(R.id.btn_search);
         mEditSearch = (EditText) findViewById(R.id.edit_search);
+        up = (Button) findViewById(R.id.btn_up);
+        down = (Button) findViewById(R.id.btn_down);
         //获取noteList
         getNoteList();
         mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
@@ -112,6 +119,19 @@ private void setListener(){
             Intent intent = new Intent(ItemDetailActivity.this,NoteEditorActivity.class);
             startActivity(intent);
             ItemDetailActivity.this.finish();
+        }
+    });
+
+    up.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            queryDataUp();
+        }
+    });
+    down.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            queryDataDown();
         }
     });
 
@@ -185,31 +205,37 @@ private void setListener(){
     //从数据库中读取所有笔记 封装成List<NoteInfo>
     private void getNoteList(){
         noteList.clear();
-        Cursor allNotes = Note.getAllNotes(dbHelper);;
-        for (allNotes.moveToFirst(); !allNotes.isAfterLast(); allNotes.moveToNext()){
+        Cursor allNotes = Note.getAllNotes(dbHelper);
+        noteInfoSet(noteList,allNotes);
+    }
+    private void noteInfoSet(List<NoteInfo> noteinfo,Cursor Notes){
+        for (Notes.moveToFirst(); !Notes.isAfterLast(); Notes.moveToNext()){
             NoteInfo noteInfo = new NoteInfo();
-            noteInfo.setId(allNotes.getString(allNotes.getColumnIndex(Note._id)));
-            noteInfo.setTitle(allNotes.getString(allNotes.getColumnIndex(Note.title)));
-            noteInfo.setContent(allNotes.getString(allNotes.getColumnIndex(content)));
-            noteInfo.setDate(allNotes.getString(allNotes.getColumnIndex(Note.time)));
-            noteInfo.setDes(allNotes.getString(allNotes.getColumnIndex(content)));
+            noteInfo.setId(Notes.getString(Notes.getColumnIndex(Note._id)));
+            noteInfo.setTitle(Notes.getString(Notes.getColumnIndex(Note.title)));
+            noteInfo.setContent(Notes.getString(Notes.getColumnIndex(Note.content)));
+            noteInfo.setDate(Notes.getString(Notes.getColumnIndex(Note.time)));
+            noteInfo.setDes(Notes.getString(Notes.getColumnIndex(Note.content)));
+            noteInfo.setPre(Notes.getString(Notes.getColumnIndex(Note.pre)));
+//            Toast.makeText(ItemDetailActivity.this, allNotes.getColumnIndex(content), Toast.LENGTH_LONG).show();
 //            noteInfo.setPhoto(allNotes.getBlob(allNotes.getColumnIndex(Note.picture)));
-            noteList.add(noteInfo);
+            noteinfo.add(noteInfo);
         }
     }
     private void getSearchList(String searchData){
         notesearchList.clear();
         Cursor allNotes = Note.getSearchNotes(dbHelper,searchData);
-        for (allNotes.moveToFirst(); !allNotes.isAfterLast(); allNotes.moveToNext()){
-            NoteInfo noteInfo = new NoteInfo();
-            noteInfo.setId(allNotes.getString(allNotes.getColumnIndex(Note._id)));
-            noteInfo.setTitle(allNotes.getString(allNotes.getColumnIndex(Note.title)));
-            noteInfo.setContent(allNotes.getString(allNotes.getColumnIndex(content)));
-            noteInfo.setDate(allNotes.getString(allNotes.getColumnIndex(Note.time)));
-            noteInfo.setDes(allNotes.getString(allNotes.getColumnIndex(content)));
-//            noteInfo.setPhoto(allNotes.getBlob(allNotes.getColumnIndex(Note.picture)));
-            notesearchList.add(noteInfo);
-        }
+        noteInfoSet(notesearchList,allNotes);
+    }
+    private void getListup(){
+        noteListup.clear();
+        Cursor upNotes = Note.upNotes(dbHelper);
+        noteInfoSet(noteListup,upNotes);
+    }
+    private void getListDown(){
+        noteListdown.clear();
+        Cursor downNotes = Note.downNotes(dbHelper);
+        noteInfoSet(noteListdown,downNotes);
     }
     //重写返回按钮处理事件
     @Override
@@ -229,6 +255,24 @@ private void setListener(){
 
         getSearchList(searchData);
         mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,notesearchList);
+        noteListView.setAdapter( mListSearchAdapter);
+//        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
+//        noteListView.setAdapter(mListAdapter);
+        mListSearchAdapter.refreshDataSet();//渲染列表
+//        Toast.makeText(ItemDetailActivity.this,searchData,Toast.LENGTH_LONG).show();
+    }
+    private void queryDataUp() {
+        getListup();
+        mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,noteListup);
+        noteListView.setAdapter( mListSearchAdapter);
+//        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
+//        noteListView.setAdapter(mListAdapter);
+        mListSearchAdapter.refreshDataSet();//渲染列表
+//        Toast.makeText(ItemDetailActivity.this,searchData,Toast.LENGTH_LONG).show();
+    }
+    private void queryDataDown() {
+        getListDown();
+        mListSearchAdapter = new ListAdapter(ItemDetailActivity.this,noteListdown);
         noteListView.setAdapter( mListSearchAdapter);
 //        mListAdapter = new ListAdapter(ItemDetailActivity.this,noteList);
 //        noteListView.setAdapter(mListAdapter);

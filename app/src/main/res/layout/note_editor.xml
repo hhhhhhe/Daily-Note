@@ -89,7 +89,6 @@
 
     <LinearLayout
         android:id="@+id/checklist"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -99,36 +98,42 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
-            android:text="优先级"
+            android:text="设置记事优先级"
             android:textSize="14dp"
             />
-        <RadioGroup
-            android:id="@+id/RadioGroup1"
-            android:layout_width="wrap_content"
+        <!--<RadioGroup-->
+            <!--android:id="@+id/RadioGroup1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/important"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="重要"-->
+                <!--android:textSize="14dp"-->
+                <!--/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/soso"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="一般"-->
+                <!--android:textSize="14dp"-->
+                <!--/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/deliy"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="可缓"-->
+                <!--android:textSize="14dp"-->
+                <!--/>-->
+        <!--</RadioGroup>-->
+        <EditText
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/important"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="重要"
-                android:textSize="14dp"
-                />
-            <RadioButton
-                android:id="@+id/soso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="一般"
-                android:textSize="14dp"
-                />
-            <RadioButton
-                android:id="@+id/deliy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="可缓"
-                android:textSize="14dp"
-                />
-        </RadioGroup>
+            android:gravity="center"
+            android:id="@+id/itempre"
+            android:hint="0~5"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/testpic"

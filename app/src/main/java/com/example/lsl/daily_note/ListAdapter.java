@@ -15,11 +15,14 @@ import java.util.List;
 /**
  * Created by lsl on 2020/6/10.
  */
+
+//适配器 用于配置列表的item
 class ViewHolder{
     public ImageView itemIcon;
     public TextView itemNoteTitle;
     public TextView itemNoteDate;
     public TextView itemNoteDes;
+    public TextView itemNotePer;
     View itemView;
 
     public ViewHolder(View itemView) {
@@ -31,6 +34,7 @@ class ViewHolder{
         itemNoteTitle = (TextView) itemView.findViewById(R.id.item_note_title);
         itemNoteDate = (TextView) itemView.findViewById(R.id.item_note_date);
         itemNoteDes = (TextView) itemView.findViewById(R.id.des);
+        itemNotePer = (TextView) itemView.findViewById(R.id.pre);
     }
 }
 public class ListAdapter extends BaseAdapter {
@@ -85,6 +89,7 @@ public class ListAdapter extends BaseAdapter {
         holder.itemNoteTitle.setText(noteList.get(position).getTitle());
         holder.itemNoteDate.setText(noteList.get(position).getDate());
         holder.itemNoteDes.setText(noteList.get(position).getDes());
+        holder.itemNotePer.setText("记事项优先级："+noteList.get(position).getPre());
         return convertView;
     }
 }

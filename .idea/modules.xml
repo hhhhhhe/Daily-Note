@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Daily-Note.iml" filepath="$PROJECT_DIR$/Daily-Note.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Daily-Note-master.iml" filepath="$PROJECT_DIR$/Daily-Note-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

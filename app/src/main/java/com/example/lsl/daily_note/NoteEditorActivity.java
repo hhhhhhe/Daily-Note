@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.lsl.daily_note.Note.content;
 import static com.example.lsl.daily_note.Note.updateNote;
 
 
@@ -50,6 +51,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     private TextView tv_now;//现在的时间
     private EditText et_title;//标题
     private EditText et_content;//内容
+    private EditText et_pre;//设置优先级
     private Button btn_save;//保存
     private Button btn_return;//取消
     private ImageView pic_button;//插入图片按钮
@@ -96,11 +98,15 @@ public class NoteEditorActivity extends AppCompatActivity {
             currentNote = (NoteInfo) bundle.getSerializable("noteInfo");
             et_title.setText(currentNote.getTitle());
             tv_now.setText(currentNote.getDate());
-//            showbyte = currentNote.getPhoto();
+            et_content.setText(currentNote.getContent());
+            et_pre.setText(currentNote.getPre());
+          //  showbyte = currentNote.getPhoto();
 //            //把byte格式的图片转为bitmap格式的图片
 //            showbitmap = BitmapFactory.decodeByteArray(showbyte, 0, showbyte.length);
 //            pic_button.setImageBitmap(showbitmap);
-            et_content.setText(currentNote.getContent());
+//
+
+//            et_pre.setText(currentNote.getPre());
 //            //获取drawable格式的图片
 //            Drawable drawable1 = pic_button.getDrawable();
 //            //把drawable格式转为byte
@@ -185,8 +191,8 @@ public class NoteEditorActivity extends AppCompatActivity {
     ContentValues values = new ContentValues();
     values.put(Note.title, et_title.getText().toString());
     values.put(Note.content, et_content.getText().toString());
+    values.put(Note.pre, et_pre.getText().toString());
     values.put(Note.time, getTime().toString());
-
 //        photodrawable = pic_button.getDrawable();
 //        //把drawable格式转为byte
 //        photobitmap = BitmapFactory.decodeByteArray(photobyte, 0, photobyte.length);
@@ -207,8 +213,9 @@ public class NoteEditorActivity extends AppCompatActivity {
         tv_now = (TextView) findViewById(R.id.tv_now);
         et_content = (EditText) findViewById(R.id.et_content);
         et_title = (EditText) findViewById(R.id.et_title);
+        et_pre = (EditText) findViewById(R.id.itempre);
         pic_button = (ImageView) findViewById(R.id.pic);
-        testpic = (ImageView) findViewById(R.id.testpic);
+//        testpic = (ImageView) findViewById(R.id.testpic);
 //        photodrawable = pic_button.getDrawable();
         tv_now.setText(getTime());
 //        //把drawable格式转为byte
@@ -267,6 +274,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                     insertFlag = false;
                     currentNote.setTitle(et_title.getText().toString());
                     currentNote.setContent(et_content.getText().toString());
+                    currentNote.setPre(et_pre.getText().toString());
                     currentNote.setDate(getTime().toString());
                     saveNote();
                     Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);
@@ -385,6 +393,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                                     insertFlag = false;
                                     currentNote.setTitle(et_title.getText().toString());
                                     currentNote.setContent(et_content.getText().toString());
+                                    currentNote.setPre(et_pre.getText().toString());
                                     currentNote.setDate(getTime().toString());
                                     saveNote();
                                     Intent intent = new Intent(NoteEditorActivity.this, ItemDetailActivity.class);

@@ -3,12 +3,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
 /**
  * Created by lsl on 2020/6/10.
  */
+
+//用于管理数据库的类
 
 public class Note implements NoteDataBaseHelper.TableCreateInterface {
     // 定义表名
@@ -19,6 +22,7 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
     public static String title = "title"; // 标题
     public static String content = "content"; // 内容
     public static String time = "date"; // 时间
+    public static String pre = "pre";//设置的优先级
 //    public static String picture = "picture";//图片
 //    public static String path = "path"; // 图片路径
 
@@ -45,7 +49,8 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
 //                + Note.id + "TEXT,"
                 + Note.title + " TEXT, "
                 + Note.content + " TEXT, "
-                + Note.time + " TEXT "
+                + Note.time + " TEXT, "
+                + Note.pre + " TEXT "
 //                + Note.picture + " BLOB"
                 + ");";
         db.execSQL(sql);
@@ -106,6 +111,7 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
         NoteMap.put(Note.title, cursor.getLong(cursor.getColumnIndex(Note.title)));
         NoteMap.put(Note.content, cursor.getString(cursor.getColumnIndex(Note.content)));
         NoteMap.put(Note.time, cursor.getString(cursor.getColumnIndex(Note.time)));
+        NoteMap.put(Note.pre, cursor.getString(cursor.getColumnIndex(Note.pre)));
 //        NoteMap.put(Note.picture, cursor.getBlob(cursor.getColumnIndex(Note.picture)));
 //        NoteMap.put(Note.path, cursor.getString(cursor.getColumnIndex(Note.path)));
         return NoteMap;
@@ -123,6 +129,20 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from Note where title like '%"+searcher+"%'",null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+    public static Cursor upNotes(NoteDataBaseHelper dbHelper) {
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Note order by cast(pre as '9999')",null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+    public static Cursor downNotes(NoteDataBaseHelper dbHelper) {
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Note order by cast(pre as '9999') desc",null);
         cursor.moveToFirst();
         return cursor;
     }

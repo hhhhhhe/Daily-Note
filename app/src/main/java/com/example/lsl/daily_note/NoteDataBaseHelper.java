@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by lsl on 2020/6/9.
  */
 
+//创建数据库
+
 public class NoteDataBaseHelper extends SQLiteOpenHelper {
     public NoteDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
