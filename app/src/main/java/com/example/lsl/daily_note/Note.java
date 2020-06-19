@@ -77,8 +77,9 @@ public class Note implements NoteDataBaseHelper.TableCreateInterface {
     public static void deleteNote(NoteDataBaseHelper dbHelper, int _id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(Note.tableName, Note._id + "=?", new String[]{_id + ""});
+//        Cursor cursor = db.query(Note.tableName, null, null, null, null, null, null);
+//        return cursor;
         db.close();
-
     }
 
     // 删除所有笔记

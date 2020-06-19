@@ -52,16 +52,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         //点击添加按钮跳转页面
         add = (Button) findViewById(R.id.btn_add);
         delete = (Button) findViewById(R.id.btn_delete);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteAllNote(dbHelper);
-                getNoteList();
-                mListAdapter.refreshDataSet();
-                Toast.makeText(ItemDetailActivity.this,"删除成功！",Toast.LENGTH_LONG).show();
 
-            }
-        });
         //先测试添加一条数据
       /*  ContentValues values = new ContentValues();
         values.put(Note.title,"测试笔记");
@@ -103,6 +94,17 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     //设置监听器
 private void setListener(){
+    delete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            deleteAllNote(dbHelper);
+            getNoteList();
+            refreshListView();
+            mListAdapter.refreshDataSet();
+            Toast.makeText(ItemDetailActivity.this,"删除成功！",Toast.LENGTH_LONG).show();
+
+        }
+    });
     add.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -177,6 +179,7 @@ private void setListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Note.deleteNote(dbHelper,Integer.parseInt(noteInfo.getId()));
+                            refreshListView();
                             noteList.remove(position);
                             mListAdapter.refreshDataSet();
                             Toast.makeText(ItemDetailActivity.this,"删除成功！",Toast.LENGTH_LONG).show();
@@ -207,7 +210,6 @@ private void setListener(){
             noteInfo.setDate(Notes.getString(Notes.getColumnIndex(Note.time)));
             noteInfo.setDes(Notes.getString(Notes.getColumnIndex(Note.content)));
             noteInfo.setPre(Notes.getString(Notes.getColumnIndex(Note.pre)));
-//            Toast.makeText(ItemDetailActivity.this, allNotes.getColumnIndex(content), Toast.LENGTH_LONG).show();
             noteInfo.setPhoto(Notes.getBlob(Notes.getColumnIndex(Note.picture)));
             noteinfo.add(noteInfo);
         }
